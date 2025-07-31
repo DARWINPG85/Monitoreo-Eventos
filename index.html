@@ -1,91 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso de Ciberseguridad con Enfoque SIEM</title>
+    <!-- Mantén todo el código existente y añade estos estilos adicionales -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        header {
-            background-color: #006699;
-            color: white;
-            padding: 20px;
+        /* Añade estos estilos para el iframe responsivo */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* Proporción 16:9 */
+            overflow: hidden;
+            margin-top: 20px;
             border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .module-card {
-            background-color: white;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+        
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        
+        .module-card .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
         }
-        .module-card h2 {
-            color: #006699;
-            margin-top: 0;
-        }
-        .module-card a {
+        
+        .button-container a.view-btn {
             display: inline-block;
             background-color: #006699;
             color: white;
             padding: 8px 15px;
             text-decoration: none;
             border-radius: 3px;
-            margin-top: 10px;
-        }
-        .module-card a:hover {
-            background-color: #0088cc;
-        }
-        footer {
+            flex: 1;
             text-align: center;
-            margin-top: 30px;
-            color: #777;
-            font-size: 0.9em;
+            margin-right: 10px;
+        }
+        
+        .button-container a.fullscreen-btn {
+            display: inline-block;
+            background-color: #444;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 3px;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .button-container a:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Curso de Ciberseguridad con Enfoque SIEM</h1>
-        <p>Material educativo sobre monitorización y gestión de eventos de seguridad</p>
-    </header>
+    <!-- Mantén el header existente -->
     
     <main>
         <div class="module-card">
             <h2>Módulo 2: Eventos y logs en sistemas SIEM</h2>
             <p>Fundamentos de eventos y logs de seguridad, su importancia y cómo interpretarlos correctamente.</p>
-            <a href="Módulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html">Ver presentación</a>
+            
+            <!-- Reemplaza el enlace con esto: -->
+            <div class="iframe-container">
+                <iframe src="Módulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" allowfullscreen></iframe>
+            </div>
+            
+            <div class="button-container">
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule(2); return false;">Ver en pantalla completa</a>
+                <a href="Módulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+            </div>
         </div>
         
+        <!-- Repite el mismo patrón para los otros módulos -->
         <div class="module-card">
             <h2>Módulo 3: Casos de uso SIEM</h2>
             <p>Implementación práctica de SIEM para diferentes escenarios y casos de uso en entornos reales.</p>
-            <a href="Módulo%203_%20Casos%20de%20Uso%20SIEM.html">Ver presentación</a>
+            
+            <div class="iframe-container">
+                <iframe src="Módulo%203_%20Casos%20de%20Uso%20SIEM.html" allowfullscreen></iframe>
+            </div>
+            
+            <div class="button-container">
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule(3); return false;">Ver en pantalla completa</a>
+                <a href="Módulo%203_%20Casos%20de%20Uso%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+            </div>
         </div>
         
         <div class="module-card">
             <h2>Módulo 4: SIEM Analytics</h2>
             <p>Técnicas analíticas avanzadas para extraer valor de los datos recopilados por sistemas SIEM.</p>
-            <a href="Módulo%204_%20SIEM%20Analytics.html">Ver presentación</a>
+            
+            <div class="iframe-container">
+                <iframe src="Módulo%204_%20SIEM%20Analytics.html" allowfullscreen></iframe>
+            </div>
+            
+            <div class="button-container">
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule(4); return false;">Ver en pantalla completa</a>
+                <a href="Módulo%204_%20SIEM%20Analytics.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+            </div>
         </div>
     </main>
     
-    <footer>
-        <p>© 2025 Curso de Ciberseguridad con Enfoque SIEM. Todos los derechos reservados.</p>
-    </footer>
+    <!-- Mantén el footer existente -->
+    
+    <script>
+        function toggleFullscreenModule(moduleNumber) {
+            let iframe;
+            switch(moduleNumber) {
+                case 2:
+                    iframe = document.querySelectorAll('.iframe-container iframe')[0];
+                    break;
+                case 3:
+                    iframe = document.querySelectorAll('.iframe-container iframe')[1];
+                    break;
+                case 4:
+                    iframe = document.querySelectorAll('.iframe-container iframe')[2];
+                    break;
+            }
+            
+            if (iframe) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            }
+        }
+    </script>
 </body>
 </html>
