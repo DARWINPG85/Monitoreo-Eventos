@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -28,14 +28,8 @@
             background-color: white;
             border-radius: 5px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .module-card h2 {
@@ -45,34 +39,13 @@
             padding-bottom: 10px;
         }
         
-        /* Estilos para el contenedor del iframe */
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 66.25%; /* Proporción 3:2 - más alta que 16:9 para contenido de presentaciones */
-            overflow: hidden;
-            margin: 20px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            background-color: #f9f9f9;
+        .module-card p {
+            margin-bottom: 20px;
         }
         
-        .iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Estilos para los botones */
         .button-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            gap: 15px;
+            gap: 10px;
         }
         
         .button-container a {
@@ -82,22 +55,13 @@
             border-radius: 4px;
             font-weight: 500;
             text-align: center;
-            transition: all 0.3s ease;
-            flex: 1;
             color: white;
-        }
-        
-        .view-btn {
             background-color: #006699;
-        }
-        
-        .fullscreen-btn {
-            background-color: #444;
+            flex: 1;
         }
         
         .button-container a:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            background-color: #0088cc;
         }
         
         footer {
@@ -107,84 +71,6 @@
             font-size: 0.9em;
             padding: 20px;
             border-top: 1px solid #eee;
-        }
-        
-        /* Estilos para la notificación de cargando */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255,255,255,0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: opacity 0.5s ease;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(0, 102, 153, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #006699;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Estilos para los botones de navegación dentro del iframe */
-        .iframe-controls {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            z-index: 10;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .nav-btn {
-            background-color: rgba(0,0,0,0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .nav-btn:hover {
-            background-color: rgba(0,0,0,0.8);
-        }
-        
-        /* Estilos responsivos */
-        @media screen and (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .iframe-container {
-                padding-bottom: 75%; /* Más alto en móviles */
-            }
-            
-            .button-container {
-                flex-direction: column;
-            }
-            
-            .button-container a {
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
@@ -198,78 +84,24 @@
         <div class="module-card">
             <h2>Módulo 2: Eventos y logs en sistemas SIEM</h2>
             <p>Fundamentos de eventos y logs de seguridad, su importancia y cómo interpretarlos correctamente.</p>
-            
-            <div class="iframe-container" id="container-module-2">
-                <div class="loading-overlay" id="loading-module-2">
-                    <div class="spinner"></div>
-                </div>
-                <iframe 
-                    id="iframe-module-2"
-                    src="modulo2.html" 
-                    allowfullscreen 
-                    onload="hideLoading('loading-module-2')">
-                </iframe>
-                <div class="iframe-controls">
-                    <button onclick="navigateSlide('iframe-module-2', 'prev')" class="nav-btn prev-btn">&lt;</button>
-                    <button onclick="navigateSlide('iframe-module-2', 'next')" class="nav-btn next-btn">&gt;</button>
-                </div>
-            </div>
-            
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-2'); return false;">Ver en pantalla completa</a>
-                <a href="modulo2.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo2.html" target="_blank">Ver presentación</a>
             </div>
         </div>
         
         <div class="module-card">
             <h2>Módulo 3: Casos de uso SIEM</h2>
             <p>Implementación práctica de SIEM para diferentes escenarios y casos de uso en entornos reales.</p>
-            
-            <div class="iframe-container" id="container-module-3">
-                <div class="loading-overlay" id="loading-module-3">
-                    <div class="spinner"></div>
-                </div>
-                <iframe 
-                    id="iframe-module-3"
-                    src="modulo3.html" 
-                    allowfullscreen
-                    onload="hideLoading('loading-module-3')">
-                </iframe>
-                <div class="iframe-controls">
-                    <button onclick="navigateSlide('iframe-module-3', 'prev')" class="nav-btn prev-btn">&lt;</button>
-                    <button onclick="navigateSlide('iframe-module-3', 'next')" class="nav-btn next-btn">&gt;</button>
-                </div>
-            </div>
-            
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-3'); return false;">Ver en pantalla completa</a>
-                <a href="modulo3.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo3.html" target="_blank">Ver presentación</a>
             </div>
         </div>
         
         <div class="module-card">
             <h2>Módulo 4: SIEM Analytics</h2>
             <p>Técnicas analíticas avanzadas para extraer valor de los datos recopilados por sistemas SIEM.</p>
-            
-            <div class="iframe-container" id="container-module-4">
-                <div class="loading-overlay" id="loading-module-4">
-                    <div class="spinner"></div>
-                </div>
-                <iframe 
-                    id="iframe-module-4"
-                    src="modulo4.html" 
-                    allowfullscreen
-                    onload="hideLoading('loading-module-4')">
-                </iframe>
-                <div class="iframe-controls">
-                    <button onclick="navigateSlide('iframe-module-4', 'prev')" class="nav-btn prev-btn">&lt;</button>
-                    <button onclick="navigateSlide('iframe-module-4', 'next')" class="nav-btn next-btn">&gt;</button>
-                </div>
-            </div>
-            
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-4'); return false;">Ver en pantalla completa</a>
-                <a href="modulo4.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo4.html" target="_blank">Ver presentación</a>
             </div>
         </div>
     </main>
@@ -277,49 +109,5 @@
     <footer>
         <p>© 2025 Curso de Ciberseguridad con Enfoque SIEM. Todos los derechos reservados.</p>
     </footer>
-    
-    <!-- Script para controlar la visualización de pantalla completa y ajustar el texto -->
-    <script>
-        // Función para ocultar el indicador de carga
-        function hideLoading(loadingId) {
-            document.getElementById(loadingId).style.opacity = 0;
-            setTimeout(() => {
-                document.getElementById(loadingId).style.display = 'none';
-            }, 500);
-        }
-        
-        // Función para cambiar a pantalla completa
-        function toggleFullscreenModule(iframeId) {
-            const iframe = document.getElementById(iframeId);
-            
-            if (iframe) {
-                if (iframe.requestFullscreen) {
-                    iframe.requestFullscreen();
-                } else if (iframe.webkitRequestFullscreen) {
-                    iframe.webkitRequestFullscreen();
-                } else if (iframe.msRequestFullscreen) {
-                    iframe.msRequestFullscreen();
-                }
-            }
-        }
-        
-        // Función para navegar entre diapositivas
-        function navigateSlide(iframeId, direction) {
-            const iframe = document.getElementById(iframeId);
-            
-            try {
-                if (iframe) {
-                    const iframeWindow = iframe.contentWindow;
-                    if (direction === 'next') {
-                        iframeWindow.Reveal.next();
-                    } else {
-                        iframeWindow.Reveal.prev();
-                    }
-                }
-            } catch (e) {
-                console.log("No se pudo navegar a la diapositiva " + direction);
-            }
-        }
-    </script>
 </body>
 </html>
