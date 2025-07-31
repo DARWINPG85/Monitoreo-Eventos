@@ -174,10 +174,10 @@
                 <div class="loading-overlay" id="loading-module-2">
                     <div class="spinner"></div>
                 </div>
-                <!-- Usamos las URL simplificadas que coinciden con las redirecciones -->
+                <!-- Ahora usamos los nombres de archivo simplificados -->
                 <iframe 
                     id="iframe-module-2"
-                    src="/Modulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" 
+                    src="modulo2.html" 
                     allowfullscreen 
                     onload="hideLoading('loading-module-2')">
                 </iframe>
@@ -185,7 +185,7 @@
             
             <div class="button-container">
                 <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-2'); return false;">Ver en pantalla completa</a>
-                <a href="/Modulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo2.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
         
@@ -199,7 +199,7 @@
                 </div>
                 <iframe 
                     id="iframe-module-3"
-                    src="/Modulo%203_%20Casos%20de%20Uso%20SIEM.html" 
+                    src="modulo3.html" 
                     allowfullscreen
                     onload="hideLoading('loading-module-3')">
                 </iframe>
@@ -207,7 +207,7 @@
             
             <div class="button-container">
                 <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-3'); return false;">Ver en pantalla completa</a>
-                <a href="/Modulo%203_%20Casos%20de%20Uso%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo3.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
         
@@ -221,7 +221,7 @@
                 </div>
                 <iframe 
                     id="iframe-module-4"
-                    src="/Modulo%204_%20SIEM%20Analytics.html" 
+                    src="modulo4.html" 
                     allowfullscreen
                     onload="hideLoading('loading-module-4')">
                 </iframe>
@@ -229,7 +229,7 @@
             
             <div class="button-container">
                 <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-4'); return false;">Ver en pantalla completa</a>
-                <a href="/Modulo%204_%20SIEM%20Analytics.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="modulo4.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
     </main>
@@ -246,9 +246,6 @@
             setTimeout(() => {
                 document.getElementById(loadingId).style.display = 'none';
             }, 500);
-            
-            // Ajusta el tamaño del texto en el iframe después de cargar
-            adjustIframeContent(event.target);
         }
         
         // Función para cambiar a pantalla completa
@@ -263,87 +260,8 @@
                 } else if (iframe.msRequestFullscreen) {
                     iframe.msRequestFullscreen();
                 }
-                
-                // Cuando entre en pantalla completa, ajusta el contenido
-                adjustIframeContent(iframe);
             }
         }
-        
-        // Función para ajustar el contenido del iframe para que se vea mejor
-        function adjustIframeContent(iframe) {
-            try {
-                // Solo se ejecuta cuando el iframe está completamente cargado
-                setTimeout(() => {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    
-                    // Crea una hoja de estilo para inyectar en el iframe
-                    let styleElement = iframeDoc.createElement('style');
-                    styleElement.textContent = `
-                        .reveal .slides {
-                            height: auto !important;
-                            min-height: 100% !important;
-                            width: 95% !important;
-                        }
-                        
-                        .reveal .slides section {
-                            top: 0 !important;
-                            padding: 10px !important;
-                            overflow-y: auto !important;
-                            max-height: 100vh !important;
-                            font-size: 0.85em !important;
-                        }
-                        
-                        .reveal p, .reveal li, .reveal pre {
-                            font-size: 0.90em !important;
-                            line-height: 1.4 !important;
-                            word-wrap: break-word !important;
-                            max-width: 95% !important;
-                        }
-                        
-                        .reveal h1, .reveal h2, .reveal h3 {
-                            word-wrap: break-word !important;
-                            max-width: 95% !important;
-                        }
-                        
-                        .reveal h1 { font-size: 1.7em !important; }
-                        .reveal h2 { font-size: 1.4em !important; }
-                        .reveal h3 { font-size: 1.2em !important; }
-                        
-                        .reveal ul, .reveal ol {
-                            display: block !important;
-                            max-width: 90% !important;
-                        }
-                        
-                        .reveal pre {
-                            width: 90% !important;
-                            white-space: pre-wrap !important;
-                        }
-                        
-                        .reveal img {
-                            max-width: 90% !important;
-                            height: auto !important;
-                        }
-                    `;
-                    
-                    // Añade los estilos al encabezado del documento del iframe
-                    iframeDoc.head.appendChild(styleElement);
-                    
-                }, 1000); // Espera un segundo para asegurarse de que todo está cargado
-                
-            } catch (e) {
-                console.log("No se pudieron ajustar los estilos del iframe debido a restricciones de seguridad");
-            }
-        }
-        
-        // Ajustar el contenido de los iframes cuando la página se carga completamente
-        window.onload = function() {
-            const iframes = document.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                iframe.addEventListener('load', function() {
-                    adjustIframeContent(this);
-                });
-            });
-        };
     </script>
 </body>
 </html>
