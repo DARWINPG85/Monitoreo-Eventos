@@ -84,16 +84,15 @@
             text-align: center;
             transition: all 0.3s ease;
             flex: 1;
+            color: white;
         }
         
         .view-btn {
             background-color: #006699;
-            color: white;
         }
         
         .fullscreen-btn {
             background-color: #444;
-            color: white;
         }
         
         .button-container a:hover {
@@ -139,6 +138,36 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Estilos para los botones de navegación dentro del iframe */
+        .iframe-controls {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+        
         /* Estilos responsivos */
         @media screen and (max-width: 768px) {
             body {
@@ -174,13 +203,16 @@
                 <div class="loading-overlay" id="loading-module-2">
                     <div class="spinner"></div>
                 </div>
-                <!-- Ahora usamos los nombres de archivo simplificados -->
                 <iframe 
                     id="iframe-module-2"
                     src="modulo2.html" 
                     allowfullscreen 
                     onload="hideLoading('loading-module-2')">
                 </iframe>
+                <div class="iframe-controls">
+                    <button onclick="navigateSlide('iframe-module-2', 'prev')" class="nav-btn prev-btn">&lt;</button>
+                    <button onclick="navigateSlide('iframe-module-2', 'next')" class="nav-btn next-btn">&gt;</button>
+                </div>
             </div>
             
             <div class="button-container">
@@ -203,6 +235,10 @@
                     allowfullscreen
                     onload="hideLoading('loading-module-3')">
                 </iframe>
+                <div class="iframe-controls">
+                    <button onclick="navigateSlide('iframe-module-3', 'prev')" class="nav-btn prev-btn">&lt;</button>
+                    <button onclick="navigateSlide('iframe-module-3', 'next')" class="nav-btn next-btn">&gt;</button>
+                </div>
             </div>
             
             <div class="button-container">
@@ -225,6 +261,10 @@
                     allowfullscreen
                     onload="hideLoading('loading-module-4')">
                 </iframe>
+                <div class="iframe-controls">
+                    <button onclick="navigateSlide('iframe-module-4', 'prev')" class="nav-btn prev-btn">&lt;</button>
+                    <button onclick="navigateSlide('iframe-module-4', 'next')" class="nav-btn next-btn">&gt;</button>
+                </div>
             </div>
             
             <div class="button-container">
@@ -246,6 +286,9 @@
             setTimeout(() => {
                 document.getElementById(loadingId).style.display = 'none';
             }, 500);
+            
+            // Ajusta el tamaño del texto en el iframe después de cargar
+            adjustIframeContent(event.target);
         }
         
         // Función para cambiar a pantalla completa
@@ -260,8 +303,111 @@
                 } else if (iframe.msRequestFullscreen) {
                     iframe.msRequestFullscreen();
                 }
+                
+                // Ajustar contenido cuando se vea en pantalla completa
+                try {
+                    setTimeout(() => {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        let styleElement = iframeDoc.createElement('style');
+                        styleElement.textContent = `
+                            .reveal .slides section {
+                                top: -140px !important;
+                            }
+                            .reveal .slides section h1 {
+                                margin-top: 100px !important;
+                            }
+                            .reveal .slides section h2 {
+                                margin-top: 50px !important;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(styleElement);
+                    }, 500);
+                } catch (e) {
+                    console.log("No se pudieron ajustar los estilos en pantalla completa");
+                }
             }
         }
+        
+        // Función para navegar entre diapositivas
+        function navigateSlide(iframeId, direction) {
+            const iframe = document.getElementById(iframeId);
+            
+            try {
+                if (iframe) {
+                    const iframeWindow = iframe.contentWindow;
+                    if (direction === 'next') {
+                        iframeWindow.Reveal.next();
+                    } else {
+                        iframeWindow.Reveal.prev();
+                    }
+                }
+            } catch (e) {
+                console.log("No se pudo navegar a la diapositiva " + direction);
+            }
+        }
+        
+        // Función para ajustar el contenido del iframe para que se vea mejor
+        function adjustIframeContent(iframe) {
+            try {
+                // Solo se ejecuta cuando el iframe está completamente cargado
+                setTimeout(() => {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Crea una hoja de estilo para inyectar en el iframe
+                    let styleElement = iframeDoc.createElement('style');
+                    styleElement.textContent = `
+                        .reveal .slides section {
+                            top: -120px !important;
+                        }
+                        .reveal .slides section h1 {
+                            margin-top: 80px !important;
+                            margin-bottom: 50px !important;
+                        }
+                        .reveal .slides section h2 {
+                            margin-top: 40px !important;
+                            margin-bottom: 30px !important;
+                        }
+                    `;
+                    
+                    // Añade los estilos al encabezado del documento del iframe
+                    iframeDoc.head.appendChild(styleElement);
+                    
+                }, 1000); // Espera un segundo para asegurarse de que todo está cargado
+                
+            } catch (e) {
+                console.log("No se pudieron ajustar los estilos del iframe debido a restricciones de seguridad");
+            }
+        }
+        
+        // Al cargar la página, aplica estilos adicionales a los iframes
+        window.onload = function() {
+            // Espera un momento para que los iframes se carguen
+            setTimeout(() => {
+                const iframes = document.querySelectorAll('iframe');
+                iframes.forEach(iframe => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        let styleElement = iframeDoc.createElement('style');
+                        styleElement.textContent = `
+                            .reveal .slides section {
+                                top: -120px !important;
+                            }
+                            .reveal .slides section h1 {
+                                margin-top: 80px !important;
+                                margin-bottom: 50px !important;
+                            }
+                            .reveal .slides section h2 {
+                                margin-top: 40px !important;
+                                margin-bottom: 30px !important;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(styleElement);
+                    } catch (e) {
+                        console.log("No se pudieron aplicar estilos adicionales al iframe");
+                    }
+                });
+            }, 1500);
+        };
     </script>
 </body>
 </html>
