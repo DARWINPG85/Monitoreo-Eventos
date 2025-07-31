@@ -1,0 +1,38 @@
+/* Botones de navegación flotantes para las presentaciones */
+.nav-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.nav-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    border: none;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.nav-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Estilos básicos para mejorar la visualización del texto */
+.reveal .slides section {
+    font-size: 0.95em !important;
+}
+
+.reveal h1 { font-size: 1.8em !important; }
+.reveal h2 { font-size: 1.5em !important; }
+.reveal h3 { font-size: 1.3em !important; }
