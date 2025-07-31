@@ -1,18 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Mantén todo el código existente y añade estos estilos adicionales -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Ciberseguridad con Enfoque SIEM</title>
     <style>
-        /* Añade estos estilos para el iframe responsivo */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        header {
+            background-color: #006699;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .module-card h2 {
+            color: #006699;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        /* Estilos para el contenedor del iframe */
         .iframe-container {
             position: relative;
             width: 100%;
             height: 0;
-            padding-bottom: 56.25%; /* Proporción 16:9 */
+            padding-bottom: 66.25%; /* Proporción 3:2 - más alta que 16:9 para contenido de presentaciones */
             overflow: hidden;
-            margin-top: 20px;
+            margin: 20px 0;
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: #f9f9f9;
         }
         
         .iframe-container iframe {
@@ -24,71 +67,147 @@
             border: none;
         }
         
-        .module-card .button-container {
+        /* Estilos para los botones */
+        .button-container {
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
+            gap: 15px;
         }
         
-        .button-container a.view-btn {
+        .button-container a {
             display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .view-btn {
             background-color: #006699;
             color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 3px;
-            flex: 1;
-            text-align: center;
-            margin-right: 10px;
         }
         
-        .button-container a.fullscreen-btn {
-            display: inline-block;
+        .fullscreen-btn {
             background-color: #444;
             color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 3px;
-            flex: 1;
-            text-align: center;
         }
         
         .button-container a:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9em;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Estilos para la notificación de cargando */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 102, 153, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #006699;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Estilos responsivos */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .iframe-container {
+                padding-bottom: 75%; /* Más alto en móviles */
+            }
+            
+            .button-container {
+                flex-direction: column;
+            }
+            
+            .button-container a {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Mantén el header existente -->
+    <header>
+        <h1>Curso de Ciberseguridad con Enfoque SIEM</h1>
+        <p>Material educativo sobre monitorización y gestión de eventos de seguridad</p>
+    </header>
     
     <main>
         <div class="module-card">
             <h2>Módulo 2: Eventos y logs en sistemas SIEM</h2>
             <p>Fundamentos de eventos y logs de seguridad, su importancia y cómo interpretarlos correctamente.</p>
             
-            <!-- Reemplaza el enlace con esto: -->
-            <div class="iframe-container">
-                <iframe src="Módulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" allowfullscreen></iframe>
+            <div class="iframe-container" id="container-module-2">
+                <div class="loading-overlay" id="loading-module-2">
+                    <div class="spinner"></div>
+                </div>
+                <!-- Usamos las URL simplificadas que coinciden con las redirecciones -->
+                <iframe 
+                    id="iframe-module-2"
+                    src="/Modulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" 
+                    allowfullscreen 
+                    onload="hideLoading('loading-module-2')">
+                </iframe>
             </div>
             
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule(2); return false;">Ver en pantalla completa</a>
-                <a href="Módulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-2'); return false;">Ver en pantalla completa</a>
+                <a href="/Modulo%202_%20Eventos%20y%20Logs%20en%20Sistemas%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
         
-        <!-- Repite el mismo patrón para los otros módulos -->
         <div class="module-card">
             <h2>Módulo 3: Casos de uso SIEM</h2>
             <p>Implementación práctica de SIEM para diferentes escenarios y casos de uso en entornos reales.</p>
             
-            <div class="iframe-container">
-                <iframe src="Módulo%203_%20Casos%20de%20Uso%20SIEM.html" allowfullscreen></iframe>
+            <div class="iframe-container" id="container-module-3">
+                <div class="loading-overlay" id="loading-module-3">
+                    <div class="spinner"></div>
+                </div>
+                <iframe 
+                    id="iframe-module-3"
+                    src="/Modulo%203_%20Casos%20de%20Uso%20SIEM.html" 
+                    allowfullscreen
+                    onload="hideLoading('loading-module-3')">
+                </iframe>
             </div>
             
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule(3); return false;">Ver en pantalla completa</a>
-                <a href="Módulo%203_%20Casos%20de%20Uso%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-3'); return false;">Ver en pantalla completa</a>
+                <a href="/Modulo%203_%20Casos%20de%20Uso%20SIEM.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
         
@@ -96,33 +215,45 @@
             <h2>Módulo 4: SIEM Analytics</h2>
             <p>Técnicas analíticas avanzadas para extraer valor de los datos recopilados por sistemas SIEM.</p>
             
-            <div class="iframe-container">
-                <iframe src="Módulo%204_%20SIEM%20Analytics.html" allowfullscreen></iframe>
+            <div class="iframe-container" id="container-module-4">
+                <div class="loading-overlay" id="loading-module-4">
+                    <div class="spinner"></div>
+                </div>
+                <iframe 
+                    id="iframe-module-4"
+                    src="/Modulo%204_%20SIEM%20Analytics.html" 
+                    allowfullscreen
+                    onload="hideLoading('loading-module-4')">
+                </iframe>
             </div>
             
             <div class="button-container">
-                <a href="#" class="view-btn" onclick="toggleFullscreenModule(4); return false;">Ver en pantalla completa</a>
-                <a href="Módulo%204_%20SIEM%20Analytics.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
+                <a href="#" class="view-btn" onclick="toggleFullscreenModule('iframe-module-4'); return false;">Ver en pantalla completa</a>
+                <a href="/Modulo%204_%20SIEM%20Analytics.html" class="fullscreen-btn" target="_blank">Abrir en nueva pestaña</a>
             </div>
         </div>
     </main>
     
-    <!-- Mantén el footer existente -->
+    <footer>
+        <p>© 2025 Curso de Ciberseguridad con Enfoque SIEM. Todos los derechos reservados.</p>
+    </footer>
     
+    <!-- Script para controlar la visualización de pantalla completa y ajustar el texto -->
     <script>
-        function toggleFullscreenModule(moduleNumber) {
-            let iframe;
-            switch(moduleNumber) {
-                case 2:
-                    iframe = document.querySelectorAll('.iframe-container iframe')[0];
-                    break;
-                case 3:
-                    iframe = document.querySelectorAll('.iframe-container iframe')[1];
-                    break;
-                case 4:
-                    iframe = document.querySelectorAll('.iframe-container iframe')[2];
-                    break;
-            }
+        // Función para ocultar el indicador de carga
+        function hideLoading(loadingId) {
+            document.getElementById(loadingId).style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById(loadingId).style.display = 'none';
+            }, 500);
+            
+            // Ajusta el tamaño del texto en el iframe después de cargar
+            adjustIframeContent(event.target);
+        }
+        
+        // Función para cambiar a pantalla completa
+        function toggleFullscreenModule(iframeId) {
+            const iframe = document.getElementById(iframeId);
             
             if (iframe) {
                 if (iframe.requestFullscreen) {
@@ -132,8 +263,87 @@
                 } else if (iframe.msRequestFullscreen) {
                     iframe.msRequestFullscreen();
                 }
+                
+                // Cuando entre en pantalla completa, ajusta el contenido
+                adjustIframeContent(iframe);
             }
         }
+        
+        // Función para ajustar el contenido del iframe para que se vea mejor
+        function adjustIframeContent(iframe) {
+            try {
+                // Solo se ejecuta cuando el iframe está completamente cargado
+                setTimeout(() => {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Crea una hoja de estilo para inyectar en el iframe
+                    let styleElement = iframeDoc.createElement('style');
+                    styleElement.textContent = `
+                        .reveal .slides {
+                            height: auto !important;
+                            min-height: 100% !important;
+                            width: 95% !important;
+                        }
+                        
+                        .reveal .slides section {
+                            top: 0 !important;
+                            padding: 10px !important;
+                            overflow-y: auto !important;
+                            max-height: 100vh !important;
+                            font-size: 0.85em !important;
+                        }
+                        
+                        .reveal p, .reveal li, .reveal pre {
+                            font-size: 0.90em !important;
+                            line-height: 1.4 !important;
+                            word-wrap: break-word !important;
+                            max-width: 95% !important;
+                        }
+                        
+                        .reveal h1, .reveal h2, .reveal h3 {
+                            word-wrap: break-word !important;
+                            max-width: 95% !important;
+                        }
+                        
+                        .reveal h1 { font-size: 1.7em !important; }
+                        .reveal h2 { font-size: 1.4em !important; }
+                        .reveal h3 { font-size: 1.2em !important; }
+                        
+                        .reveal ul, .reveal ol {
+                            display: block !important;
+                            max-width: 90% !important;
+                        }
+                        
+                        .reveal pre {
+                            width: 90% !important;
+                            white-space: pre-wrap !important;
+                        }
+                        
+                        .reveal img {
+                            max-width: 90% !important;
+                            height: auto !important;
+                        }
+                    `;
+                    
+                    // Añade los estilos al encabezado del documento del iframe
+                    iframeDoc.head.appendChild(styleElement);
+                    
+                }, 1000); // Espera un segundo para asegurarse de que todo está cargado
+                
+            } catch (e) {
+                console.log("No se pudieron ajustar los estilos del iframe debido a restricciones de seguridad");
+            }
+        }
+        
+        // Ajustar el contenido de los iframes cuando la página se carga completamente
+        window.onload = function() {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                iframe.addEventListener('load', function() {
+                    adjustIframeContent(this);
+                });
+            });
+        };
     </script>
 </body>
 </html>
