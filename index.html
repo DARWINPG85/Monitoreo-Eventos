@@ -286,9 +286,6 @@
             setTimeout(() => {
                 document.getElementById(loadingId).style.display = 'none';
             }, 500);
-            
-            // Ajusta el tamaño del texto en el iframe después de cargar
-            adjustIframeContent(event.target);
         }
         
         // Función para cambiar a pantalla completa
@@ -302,28 +299,6 @@
                     iframe.webkitRequestFullscreen();
                 } else if (iframe.msRequestFullscreen) {
                     iframe.msRequestFullscreen();
-                }
-                
-                // Ajustar contenido cuando se vea en pantalla completa
-                try {
-                    setTimeout(() => {
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        let styleElement = iframeDoc.createElement('style');
-                        styleElement.textContent = `
-                            .reveal .slides section {
-                                top: -140px !important;
-                            }
-                            .reveal .slides section h1 {
-                                margin-top: 100px !important;
-                            }
-                            .reveal .slides section h2 {
-                                margin-top: 50px !important;
-                            }
-                        `;
-                        iframeDoc.head.appendChild(styleElement);
-                    }, 500);
-                } catch (e) {
-                    console.log("No se pudieron ajustar los estilos en pantalla completa");
                 }
             }
         }
@@ -345,69 +320,6 @@
                 console.log("No se pudo navegar a la diapositiva " + direction);
             }
         }
-        
-        // Función para ajustar el contenido del iframe para que se vea mejor
-        function adjustIframeContent(iframe) {
-            try {
-                // Solo se ejecuta cuando el iframe está completamente cargado
-                setTimeout(() => {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    
-                    // Crea una hoja de estilo para inyectar en el iframe
-                    let styleElement = iframeDoc.createElement('style');
-                    styleElement.textContent = `
-                        .reveal .slides section {
-                            top: -120px !important;
-                        }
-                        .reveal .slides section h1 {
-                            margin-top: 80px !important;
-                            margin-bottom: 50px !important;
-                        }
-                        .reveal .slides section h2 {
-                            margin-top: 40px !important;
-                            margin-bottom: 30px !important;
-                        }
-                    `;
-                    
-                    // Añade los estilos al encabezado del documento del iframe
-                    iframeDoc.head.appendChild(styleElement);
-                    
-                }, 1000); // Espera un segundo para asegurarse de que todo está cargado
-                
-            } catch (e) {
-                console.log("No se pudieron ajustar los estilos del iframe debido a restricciones de seguridad");
-            }
-        }
-        
-        // Al cargar la página, aplica estilos adicionales a los iframes
-        window.onload = function() {
-            // Espera un momento para que los iframes se carguen
-            setTimeout(() => {
-                const iframes = document.querySelectorAll('iframe');
-                iframes.forEach(iframe => {
-                    try {
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        let styleElement = iframeDoc.createElement('style');
-                        styleElement.textContent = `
-                            .reveal .slides section {
-                                top: -120px !important;
-                            }
-                            .reveal .slides section h1 {
-                                margin-top: 80px !important;
-                                margin-bottom: 50px !important;
-                            }
-                            .reveal .slides section h2 {
-                                margin-top: 40px !important;
-                                margin-bottom: 30px !important;
-                            }
-                        `;
-                        iframeDoc.head.appendChild(styleElement);
-                    } catch (e) {
-                        console.log("No se pudieron aplicar estilos adicionales al iframe");
-                    }
-                });
-            }, 1500);
-        };
     </script>
 </body>
 </html>
